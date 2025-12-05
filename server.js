@@ -121,3 +121,5 @@ async function startServer() {
 }
 
 startServer();
+module.exports = app;
+module.exports.default = app;
