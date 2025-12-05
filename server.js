@@ -11,8 +11,6 @@
 ********************************************************************************/
 
 require('dotenv').config();
-// For Vercel deployment
-const isVercel = process.env.VERCEL === '1';
 const express = require('express');
 const path = require('path');
 const expressHandlebars = require('express-handlebars');
@@ -111,15 +109,25 @@ async function startServer() {
         await connectPostgreSQL();
         console.log('✅ PostgreSQL connected successfully');
         
-        app.listen(PORT, () => {
-            console.log(`🚀 Server running on http://localhost:${PORT}`);
-        });
+        // Only start listening if not in Vercel
+        if (!process.env.VERCEL) {
+            app.listen(PORT, () => {
+                console.log(`🚀 Server running on http://localhost:${PORT}`);
+            });
+        }
     } catch (error) {
         console.error('❌ Failed to start server:', error);
-        process.exit(1);
+        if (!process.env.VERCEL) {
+            process.exit(1);
+        }
     }
 }
 
-startServer();
+// Only start server if not in Vercel environment
+if (!process.env.VERCEL) {
+    startServer();
+}
+
+// ========== EXPORT FOR VERCEL ==========
 module.exports = app;
 module.exports.default = app;
