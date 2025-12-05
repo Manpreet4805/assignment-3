@@ -1,0 +1,78 @@
+<div class="tasks-header">
+    <h1><i class="fas fa-tasks"></i> My Tasks</h1>
+    
+    <div class="tasks-controls">
+        <form method="GET" action="/tasks/list" class="filter-form">
+            <select name="status" onchange="this.form.submit()">
+                <option value="all" {{#eq statusFilter 'all'}}selected{{/eq}}>All Tasks</option>
+                <option value="pending" {{#eq statusFilter 'pending'}}selected{{/eq}}>Pending</option>
+                <option value="completed" {{#eq statusFilter 'completed'}}selected{{/eq}}>Completed</option>
+            </select>
+            
+            <select name="sort" onchange="this.form.submit()">
+                <option value="dueDate" {{#eq sortBy 'dueDate'}}selected{{/eq}}>Sort by Due Date</option>
+                <option value="title" {{#eq sortBy 'title'}}selected{{/eq}}>Sort by Title</option>
+                <option value="createdAt" {{#eq sortBy 'createdAt'}}selected{{/eq}}>Sort by Created</option>
+                <option value="status" {{#eq sortBy 'status'}}selected{{/eq}}>Sort by Status</option>
+            </select>
+        </form>
+        
+        <a href="/tasks/add" class="btn btn-success">
+            <i class="fas fa-plus"></i> Add Task
+        </a>
+    </div>
+</div>
+
+{{#if tasks.length}}
+    <div class="task-list">
+        {{#each tasks}}
+            <div class="task-item {{status}} {{#if isOverdue}}overdue{{/if}}">
+                <div class="task-checkbox">
+                    <form method="POST" action="/tasks/status/{{id}}" class="status-form">
+                        <input type="hidden" name="status" value="{{#eq status 'pending'}}completed{{else}}pending{{/eq}}">
+                        <button type="button" class="checkbox {{status}}" onclick="toggleStatus(this)">
+                            {{#eq status 'completed'}}
+                                <i class="fas fa-check"></i>
+                            {{/eq}}
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="task-content">
+                    <div class="task-header">
+                        <h3>{{title}}</h3>
+                        <span class="task-status {{status}}">{{status}}</span>
+                    </div>
+                    
+                    <p class="task-description">{{description}}</p>
+                    
+                    <div class="task-footer">
+                        <span class="task-date">
+                            <i class="fas fa-calendar"></i>
+                            Due: {{formatDate dueDate}}
+                        </span>
+                        
+                        <div class="task-actions">
+                            <a href="/tasks/edit/{{id}}" class="btn btn-small">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <button type="button" class="btn btn-small btn-danger" 
+                                    onclick="deleteTask('{{id}}')">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+{{else}}
+    <div class="empty-state">
+        <i class="fas fa-clipboard-list fa-3x"></i>
+        <h3>No tasks found</h3>
+        <p>You don't have any tasks yet. Start by adding one!</p>
+        <a href="/tasks/add" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add Your First Task
+        </a>
+    </div>
+{{/if}}

@@ -1,0 +1,49 @@
+<div class="task-form-container">
+    <div class="form-card">
+        <h1><i class="fas fa-plus-circle"></i> Add New Task</h1>
+        
+        {{#if error}}
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i> {{error}}
+            </div>
+        {{/if}}
+        
+        <form method="POST" action="/tasks/add">
+            <div class="form-group">
+                <label for="title"><i class="fas fa-heading"></i> Title *</label>
+                <input type="text" id="title" name="title" value="{{formData.title}}" required
+                       placeholder="Enter task title" minlength="3" maxlength="100">
+                <small>Required. 3-100 characters.</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="description"><i class="fas fa-align-left"></i> Description</label>
+                <textarea id="description" name="description" rows="4"
+                          placeholder="Enter task description (optional)">{{formData.description}}</textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="dueDate"><i class="fas fa-calendar-alt"></i> Due Date</label>
+                <input type="date" id="dueDate" name="dueDate" value="{{formData.dueDate}}">
+                <small>Optional. Cannot be in the past.</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="status"><i class="fas fa-tasks"></i> Status</label>
+                <select id="status" name="status">
+                    <option value="pending" {{#eq formData.status 'pending'}}selected{{/eq}}>Pending</option>
+                    <option value="completed" {{#eq formData.status 'completed'}}selected{{/eq}}>Completed</option>
+                </select>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save Task
+                </button>
+                <a href="/tasks" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

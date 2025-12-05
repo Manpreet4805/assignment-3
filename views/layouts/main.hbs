@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - Task Manager</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">✅ TaskManager</a>
+            <div class="nav-links">
+                {{#if user}}
+                    <span class="welcome">Welcome, {{user.username}}!</span>
+                    <a href="/tasks"><i class="fas fa-home"></i> Dashboard</a>
+                    <a href="/tasks/list"><i class="fas fa-tasks"></i> My Tasks</a>
+                    <a href="/tasks/add"><i class="fas fa-plus"></i> Add Task</a>
+                    <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                {{else}}
+                    <a href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    <a href="/register"><i class="fas fa-user-plus"></i> Register</a>
+                {{/if}}
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        {{#if success}}
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i> {{success}}
+            </div>
+        {{/if}}
+        
+        {{#if error}}
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i> {{error}}
+            </div>
+        {{/if}}
+
+        {{{body}}}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>WEB322 Assignment 3 &copy; {{currentYear}}</p>
+        </div>
+    </footer>
+
+    <script src="/js/scripts.js"></script>
+</body>
+</html>

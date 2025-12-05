@@ -1,0 +1,81 @@
+<h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
+<p class="subtitle">Welcome back! Here's your task overview.</p>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon total">
+            <i class="fas fa-tasks"></i>
+        </div>
+        <div class="stat-info">
+            <h3>{{totalTasks}}</h3>
+            <p>Total Tasks</p>
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon pending">
+            <i class="fas fa-clock"></i>
+        </div>
+        <div class="stat-info">
+            <h3>{{pendingTasks}}</h3>
+            <p>Pending</p>
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon completed">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-info">
+            <h3>{{completedTasks}}</h3>
+            <p>Completed</p>
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon overdue">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="stat-info">
+            <h3>{{overdueTasks}}</h3>
+            <p>Overdue</p>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-actions">
+    <a href="/tasks/list" class="btn btn-primary">
+        <i class="fas fa-list"></i> View All Tasks
+    </a>
+    <a href="/tasks/add" class="btn btn-success">
+        <i class="fas fa-plus"></i> Add New Task
+    </a>
+</div>
+
+{{#if recentTasks.length}}
+    <div class="recent-tasks">
+        <h2><i class="fas fa-history"></i> Recent Tasks</h2>
+        <div class="task-list">
+            {{#each recentTasks}}
+                <div class="task-item {{status}}">
+                    <div class="task-header">
+                        <h3>{{title}}</h3>
+                        <span class="task-status">{{status}}</span>
+                    </div>
+                    <p class="task-description">{{description}}</p>
+                    <div class="task-footer">
+                        <span class="task-date">
+                            <i class="fas fa-calendar"></i>
+                            Due: {{formatDate dueDate}}
+                        </span>
+                        <div class="task-actions">
+                            <a href="/tasks/edit/{{id}}" class="btn btn-small">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+{{/if}}
